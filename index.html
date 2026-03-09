@@ -1335,7 +1335,7 @@
 
       <div class="contact-detail">
         <span class="cd-label">Email</span>
-        <span class="cd-value"><a href="/cdn-cgi/l/email-protection#2048454c4c4f60444956494e454841495244455349474e530e434f4d"><span class="__cf_email__" data-cfemail="bcd4d9d0d0d3fcd8d5cad5d2d9d4ddd5ced8d9cfd5dbd2cf92dfd3d1">[email&#160;protected]</span></a></span>
+        <span class="cd-value"><a href="mailto:hello@divinestudio.beauty">hello@divinestudio.beauty</a></span>
       </div>
 
       <div class="contact-detail">
@@ -1406,7 +1406,8 @@
   <p class="footer-copy">© 2025 Divine Studio · Katy, Texas · All Rights Reserved</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+<script>
   // ── NAV scroll effect
   const nav = document.getElementById('mainNav');
   window.addEventListener('scroll', () => {
@@ -1427,4 +1428,26 @@
 
   // ── Smooth anchor scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventLi
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ── Mobile nav toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  }
+</script>
+</body>
+</html>
