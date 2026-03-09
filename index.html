@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Divine Studio | Katy, Texas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Raleway:wght@200;300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black:    #0a0907;
+      --dark:     #111009;
+      --dark2:    #1a1712;
+      --dark3:    #221f18;
+      --gold:     #c9a84c;
+      --gold-lt:  #e2c97e;
+      --gold-dk:  #a07830;
+      --cream:    #f5edd6;
+      --warm:     #e8d9bc;
+      --muted:    #9e9078;
+      --white:    #fdfaf4;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--cream);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dk); border-radius: 2px; }
+
+    /* ─── GOLD LINE UTILITY ─── */
+    .gold-line {
+      display: block;
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto;
+    }
+    .gold-line.left { margin: 0; }
+
+    /* ─── SECTION LABEL ─── */
+    .section-label {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    /* ────────────────────────────
+       NAV
+    ──────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 1.4rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s, padding 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(10,9,7,0.96);
+      backdrop-filter: blur(12px);
+      padding: 1rem 4rem;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .nav-logo {
+      display: flex; flex-direction: column; align-items: center; line-height: 1;
+    }
+    .nav-logo .script {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.85rem;
+      color: var(--gold-lt);
+      line-height: 1;
+    }
+    .nav-logo .sub {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 0.5rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .nav-links {
+      display: flex; gap: 2.5rem; list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 500;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm);
+      text-decoration: none;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--gold);
+      transform: scaleX(0); transition: transform 0.3s;
+      transform-origin: center;
+    }
+    .nav-links a:hover { color: var(--gold-lt); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-book {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--dark);
+      background: var(--gold);
+      padding: 0.75rem 1.8rem;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav-book:hover { background: var(--gold-lt); }
+
+    /* ────────────────────────────
+       HERO
+    ──────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--black);
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 60%, rgba(201,168,76,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 20%, rgba(201,168,76,0.04) 0%, transparent 60%),
+        linear-gradient(180deg, #0a0907 0%, #111009 50%, #0d0b08 100%);
+    }
+
+    /* Decorative corner lines */
+    .hero-corner {
+      position: absolute;
+      width: 120px; height: 120px;
+      opacity: 0.4;
+    }
+    .hero-corner.tl { top: 6rem; left: 4rem; border-top: 1px solid var(--gold); border-left: 1px solid var(--gold); }
+    .hero-corner.br { bottom: 4rem; right: 4rem; border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 2rem;
+      animation: heroFadeIn 1.4s ease both;
+    }
+
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 500;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+      animation: heroFadeIn 1.4s 0.2s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(4rem, 10vw, 8.5rem);
+      color: var(--cream);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      animation: heroFadeIn 1.4s 0.35s ease both;
+    }
+
+    .hero-subtitle {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: clamp(0.55rem, 1.5vw, 0.75rem);
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      animation: heroFadeIn 1.4s 0.5s ease both;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto 3rem;
+      animation: heroFadeIn 1.4s 0.65s ease both;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+      animation: heroFadeIn 1.4s 0.8s ease both;
+    }
+
+    .btn-primary {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 600;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: var(--dark);
+      padding: 1.1rem 2.8rem;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+    .btn-outline {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 500;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--cream);
+      padding: 1.1rem 2.8rem;
+      text-decoration: none;
+      border: 1px solid rgba(201,168,76,0.4);
+      transition: border-color 0.3s, color 0.3s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-lt); transform: translateY(-2px); }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      animation: heroFadeIn 1.4s 1.2s ease both;
+    }
+    .hero-scroll span {
+      font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold);
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(180deg, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
+    /* ────────────────────────────
+       INTRO STRIP
+    ──────────────────────────── */
+    .intro-strip {
+      background: var(--dark2);
+      border-top: 1px solid rgba(201,168,76,0.15);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+      padding: 2.5rem 4rem;
+      display: flex; justify-content: center; gap: 5rem; flex-wrap: wrap;
+    }
+    .intro-item {
+      text-align: center;
+    }
+    .intro-item .num {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 2.4rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .intro-item .label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.3rem;
+    }
+    .intro-divider {
+      width: 1px;
+      background: rgba(201,168,76,0.2);
+      align-self: stretch;
+    }
+
+    /* ────────────────────────────
+       SECTIONS (shared)
+    ──────────────────────────── */
+    section { padding: 7rem 4rem; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .section-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      color: var(--cream);
+      letter-spacing: 0.05em;
+      margin: 0.8rem 0;
+      line-height: 1.2;
+    }
+    .section-header h2 em {
+      font-style: italic;
+      color: var(--gold-lt);
+    }
+    .section-header p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 520px;
+      margin: 1.2rem auto 0;
+    }
+
+    /* ────────────────────────────
+       SERVICES
+    ──────────────────────────── */
+    #services {
+      background: var(--dark);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5px;
+      max-width: 1200px;
+      margin: 0 auto;
+      border: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .service-card {
+      background: var(--dark2);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+    .service-card:hover { background: var(--dark3); }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .service-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 1.5rem;
+      color: var(--cream);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+
+    .service-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 1.8rem;
+    }
+
+    .service-items {
+      list-style: none;
+      border-top: 1px solid rgba(201,168,76,0.15);
+      padding-top: 1.4rem;
+    }
+    .service-items li {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .service-items li:last-child { border-bottom: none; }
+    .service-items .item-name {
+      font-size: 0.8rem;
+      color: var(--warm);
+      letter-spacing: 0.03em;
+    }
+    .service-items .item-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1rem;
+      color: var(--gold);
+    }
+
+    /* ────────────────────────────
+       WHY DIVINE
+    ──────────────────────────── */
+    #why {
+      background: var(--dark2);
+      position: relative;
+      overflow: hidden;
+    }
+    #why::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .why-item {
+      padding: 3rem;
+      border: 1px solid rgba(201,168,76,0.08);
+      position: relative;
+    }
+    .why-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: rgba(201,168,76,0.12);
+      position: absolute;
+      top: 1.5rem; right: 2rem;
+      line-height: 1;
+    }
+    .why-item h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 1.2rem;
+      color: var(--gold-lt);
+      margin-bottom: 0.7rem;
+      letter-spacing: 0.03em;
+    }
+    .why-item p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    /* ────────────────────────────
+       TEAM
+    ──────────────────────────── */
+    #team {
+      background: var(--dark);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .team-card {
+      text-align: center;
+      cursor: default;
+    }
+
+    .team-photo {
+      width: 100%; aspect-ratio: 3/4;
+      background: var(--dark3);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.4rem;
+    }
+    .team-photo-inner {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--dark3) 0%, #2a2418 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .team-photo-inner svg {
+      opacity: 0.2;
+    }
+    .team-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      border: 1px solid rgba(201,168,76,0.0);
+      transition: border-color 0.4s;
+    }
+    .team-card:hover .team-photo::after { border-color: rgba(201,168,76,0.3); }
+
+    .team-photo-frame {
+      position: absolute; inset: 10px;
+      border: 1px solid rgba(201,168,76,0.12);
+    }
+
+    .team-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.3rem;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    .team-card .role {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .team-card .specialty {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      line-height: 1.6;
+    }
+
+    /* ────────────────────────────
+       GALLERY
+    ──────────────────────────── */
+    #gallery {
+      background: var(--dark2);
+      padding: 7rem 4rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: 280px 280px;
+      gap: 6px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      background: var(--dark3);
+      cursor: pointer;
+    }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .gallery-item:nth-child(2) { grid-column: span 2; }
+    .gallery-item:nth-child(3) { grid-column: span 2; }
+    .gallery-item:nth-child(4) { grid-column: span 1; }
+    .gallery-item:nth-child(5) { grid-column: span 1; }
+    .gallery-item:nth-child(6) { grid-column: span 2; }
+
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.5rem;
+    }
+    .gallery-placeholder .gp-icon { font-size: 1.8rem; opacity: 0.25; }
+    .gallery-placeholder .gp-text {
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); opacity: 0.5;
+    }
+
+    /* Color each placeholder differently */
+    .gallery-item:nth-child(1) .gallery-placeholder { background: linear-gradient(135deg, #1a1510 0%, #2d2418 100%); }
+    .gallery-item:nth-child(2) .gallery-placeholder { background: linear-gradient(135deg, #181410 0%, #252015 100%); }
+    .gallery-item:nth-child(3) .gallery-placeholder { background: linear-gradient(135deg, #201c14 0%, #171410 100%); }
+    .gallery-item:nth-child(4) .gallery-placeholder { background: linear-gradient(135deg, #161310 0%, #221e16 100%); }
+    .gallery-item:nth-child(5) .gallery-placeholder { background: linear-gradient(135deg, #1c1810 0%, #282210 100%); }
+    .gallery-item:nth-child(6) .gallery-placeholder { background: linear-gradient(135deg, #1a1612 0%, #201c14 100%); }
+
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,9,7,0.6);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.35s;
+    }
+    .gallery-overlay span {
+      font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    .gallery-note {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ────────────────────────────
+       BOOK CTA
+    ──────────────────────────── */
+    #book {
+      background: var(--dark3);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 8rem 4rem;
+    }
+    #book::before {
+      content: '';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .book-ornament {
+      display: flex; align-items: center; justify-content: center; gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .book-ornament-line {
+      width: 80px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .book-ornament-line.rev { background: linear-gradient(90deg, var(--gold), transparent); }
+    .book-ornament-diamond {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    #book h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      color: var(--cream);
+      line-height: 1.2;
+      margin-bottom: 1.2rem;
+    }
+    #book h2 em {
+      font-style: italic;
+      color: var(--gold-lt);
+    }
+    #book p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 480px;
+      margin: 0 auto 3rem;
+    }
+
+    /* ────────────────────────────
+       TESTIMONIALS
+    ──────────────────────────── */
+    #testimonials {
+      background: var(--dark);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: var(--dark2);
+      padding: 3rem 2.5rem;
+      position: relative;
+    }
+
+    .testimonial-quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      color: var(--gold);
+      opacity: 0.2;
+      line-height: 0.6;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .testimonial-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.15rem;
+      color: var(--warm);
+      line-height: 1.75;
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .testimonial-footer {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .testimonial-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--dark3), #2a2418);
+      border: 1px solid rgba(201,168,76,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--gold);
+    }
+    .testimonial-info .name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--cream);
+    }
+    .testimonial-info .stars {
+      font-size: 0.65rem;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      margin-top: 2px;
+    }
+
+    /* ────────────────────────────
+       CONTACT
+    ──────────────────────────── */
+    #contact {
+      background: var(--dark2);
+    }
+
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    .contact-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.8rem;
+      color: var(--cream);
+      margin-bottom: 2.5rem;
+      line-height: 1.3;
+    }
+
+    .contact-detail {
+      display: flex; flex-direction: column;
+      margin-bottom: 2rem;
+    }
+    .contact-detail .cd-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .contact-detail .cd-value {
+      font-size: 0.9rem;
+      color: var(--warm);
+      line-height: 1.6;
+    }
+    .contact-detail a { color: var(--warm); text-decoration: none; }
+    .contact-detail a:hover { color: var(--gold-lt); }
+
+    .contact-hours {
+      margin-top: 0.3rem;
+    }
+    .hours-row {
+      display: flex; justify-content: space-between;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.8rem;
+    }
+    .hours-row .day { color: var(--muted); }
+    .hours-row .time { color: var(--warm); }
+
+    .contact-form-side h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.8rem;
+      color: var(--cream);
+      margin-bottom: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(201,168,76,0.15);
+      color: var(--cream);
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.85rem;
+      padding: 0.9rem 1.1rem;
+      outline: none;
+      transition: border-color 0.3s;
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group textarea { min-height: 110px; resize: vertical; }
+    .form-group select option { background: var(--dark2); }
+
+    /* ────────────────────────────
+       FOOTER
+    ──────────────────────────── */
+    footer {
+      background: var(--black);
+      padding: 4rem;
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .footer-logo .script {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      color: var(--gold-lt);
+    }
+    .footer-logo .sub {
+      font-size: 0.55rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .footer-links {
+      display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+    .footer-links a {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--gold-lt); }
+
+    .footer-social {
+      display: flex; justify-content: center; gap: 1.2rem; margin-bottom: 2rem;
+    }
+    .social-btn {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.3s, background 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+    .social-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.05); }
+
+    .footer-copy {
+      font-size: 0.65rem;
+      color: var(--muted);
+      opacity: 0.5;
+      letter-spacing: 0.1em;
+    }
+
+    /* ────────────────────────────
+       SCROLL REVEAL
+    ──────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ────────────────────────────
+       RESPONSIVE
+    ──────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      nav.scrolled { padding: 0.9rem 2rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 2rem; }
+      .intro-strip { padding: 2rem; gap: 2.5rem; }
+      .intro-divider { display: none; }
+      .why-grid { grid-template-columns: 1fr; }
+      .contact-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .gallery-item { grid-column: span 1 !important; grid-row: span 1 !important; height: 180px; }
+      footer { padding: 3rem 2rem; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-corner { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────── -->
+<nav id="mainNav">
+  <div class="nav-logo">
+    <span class="script">Divine Studio</span>
+    <span class="sub">Katy, Texas</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://dhdbyeve.glossgenius.com" target="_blank" rel="noopener" class="nav-book">Book Now</a>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-corner tl"></div>
+  <div class="hero-corner br"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Katy, Texas &nbsp;·&nbsp; Luxury Beauty Destination</p>
+    <h1 class="hero-title">Divine Studio</h1>
+    <p class="hero-subtitle">Hair · Skin · Nails · Wellness</p>
+    <p class="hero-desc">
+      An elevated sanctuary in the heart of Katy, Texas. Divine Studio is a curated luxury beauty experience — where exceptional hair, skin, nails and wellness come together under one roof, just for you.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://dhdbyeve.glossgenius.com" target="_blank" rel="noopener" class="btn-primary">Book Your Appointment</a>
+      <a href="#services" class="btn-outline">Explore Services</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── INTRO STRIP ──────────────────────────── -->
+<div class="intro-strip">
+  <div class="intro-item">
+    <div class="num">10+</div>
+    <div class="label">Years of Artistry</div>
+  </div>
+  <div class="intro-divider"></div>
+  <div class="intro-item">
+    <div class="num">500+</div>
+    <div class="label">Happy Guests</div>
+  </div>
+  <div class="intro-divider"></div>
+  <div class="intro-item">
+    <div class="num">5★</div>
+    <div class="label">Client Rating</div>
+  </div>
+  <div class="intro-divider"></div>
+  <div class="intro-item">
+    <div class="num">100%</div>
+    <div class="label">Luxury Experience</div>
+  </div>
+</div>
+
+<!-- ── SERVICES ──────────────────────────────── -->
+<section id="services">
+  <div class="section-header reveal">
+    <p class="section-label">Our Offerings</p>
+    <span class="gold-line"></span>
+    <h2>Services &amp; <em>Pricing</em></h2>
+    <p>Every service is crafted with intention, using premium products and the expertise of our passionate team.</p>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- Cut & Style -->
+    <div class="service-card reveal reveal-delay-1">
+      <span class="service-icon">✂</span>
+      <h3>Cut &amp; Style</h3>
+      <p>Precision cuts designed around your face shape, lifestyle, and maintenance goals. Every detail is intentional.</p>
+      <ul class="service-items">
+        <li><span class="item-name">Women's Cut</span><span class="item-price">$75+</span></li>
+        <li><span class="item-name">Men's Cut</span><span class="item-price">$45+</span></li>
+        <li><span class="item-name">Blowout &amp; Style</span><span class="item-price">$55+</span></li>
+        <li><span class="item-name">Bang Trim</span><span class="item-price">$20+</span></li>
+      </ul>
+    </div>
+
+    <!-- Color -->
+    <div class="service-card reveal reveal-delay-2">
+      <span class="service-icon">◈</span>
+      <h3>Color</h3>
+      <p>From sun-kissed balayage to rich dimensional color — we specialize in lived-in, low-maintenance looks that grow out beautifully.</p>
+      <ul class="service-items">
+        <li><span class="item-name">Full Color</span><span class="item-price">$120+</span></li>
+        <li><span class="item-name">Highlights</span><span class="item-price">$150+</span></li>
+        <li><span class="item-name">Balayage</span><span class="item-price">$185+</span></li>
+        <li><span class="item-name">Gloss / Toner</span><span class="item-price">$65+</span></li>
+        <li><span class="item-name">Color Correction</span><span class="item-price">Consultation</span></li>
+      </ul>
+    </div>
+
+    <!-- Extensions -->
+    <div class="service-card reveal reveal-delay-3">
+      <span class="service-icon">⟡</span>
+      <h3>Extensions</h3>
+      <p>Add length, volume, and fullness with our premium extension services — seamlessly blended for a natural, effortless finish.</p>
+      <ul class="service-items">
+        <li><span class="item-name">Tape-In Extensions</span><span class="item-price">$400+</span></li>
+        <li><span class="item-name">Weft / Sew-In</span><span class="item-price">$300+</span></li>
+        <li><span class="item-name">Nano / Micro-Link</span><span class="item-price">$450+</span></li>
+        <li><span class="item-name">Extension Maintenance</span><span class="item-price">$150+</span></li>
+      </ul>
+    </div>
+
+    <!-- Chemical -->
+    <div class="service-card reveal reveal-delay-1">
+      <span class="service-icon">◇</span>
+      <h3>Chemical Services</h3>
+      <p>Smoothing, strengthening, and transformative treatments for long-lasting results you'll feel every single day.</p>
+      <ul class="service-items">
+        <li><span class="item-name">Keratin Treatment</span><span class="item-price">$250+</span></li>
+        <li><span class="item-name">Relaxer</span><span class="item-price">$120+</span></li>
+        <li><span class="item-name">Perm</span><span class="item-price">$150+</span></li>
+        <li><span class="item-name">Deep Conditioning</span><span class="item-price">$55+</span></li>
+      </ul>
+    </div>
+
+    <!-- Bridal -->
+    <div class="service-card reveal reveal-delay-2">
+      <span class="service-icon">♛</span>
+      <h3>Bridal &amp; Special Occasions</h3>
+      <p>Your most important moments deserve the most extraordinary hair. We'll make sure you feel like the version of yourself you've always dreamed of.</p>
+      <ul class="service-items">
+        <li><span class="item-name">Bridal Package</span><span class="item-price">$350+</span></li>
+        <li><span class="item-name">Bridal Party (per person)</span><span class="item-price">$125+</span></li>
+        <li><span class="item-name">Trial Run</span><span class="item-price">$150+</span></li>
+        <li><span class="item-name">Event Updo</span><span class="item-price">$95+</span></li>
+      </ul>
+    </div>
+
+  </div>
+  <p style="text-align:center; margin-top:2rem; font-size:0.75rem; color:var(--muted); font-style:italic;">
+    Prices vary based on hair length, density, and service complexity. Complimentary consultations available.
+  </p>
+</section>
+
+<!-- ── WHY DIVINE ────────────────────────────── -->
+<section id="why">
+  <div class="section-header reveal">
+    <p class="section-label">The Divine Difference</p>
+    <span class="gold-line"></span>
+    <h2>Why Choose <em>Divine</em></h2>
+    <p>We're not just a salon — we're an experience. From the moment you walk in, everything is designed around you.</p>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-item reveal reveal-delay-1">
+      <span class="why-num">01</span>
+      <h4>Personalized Consultations</h4>
+      <p>Every visit starts with a thorough consultation so we fully understand your vision, lifestyle, and hair goals before we ever pick up a brush.</p>
+    </div>
+    <div class="why-item reveal reveal-delay-2">
+      <span class="why-num">02</span>
+      <h4>Premium Products Only</h4>
+      <p>We partner exclusively with luxury, professional-grade brands that protect the health and integrity of your hair — because great color starts with great care.</p>
+    </div>
+    <div class="why-item reveal reveal-delay-3">
+      <span class="why-num">03</span>
+      <h4>Education-Driven Team</h4>
+      <p>Our stylists are committed to ongoing education in the latest techniques, trends, and innovations so you always receive the very best.</p>
+    </div>
+    <div class="why-item reveal reveal-delay-4">
+      <span class="why-num">04</span>
+      <h4>A Space That's Yours</h4>
+      <p>Divine Studio is a welcoming, inclusive sanctuary in Katy where every guest — regardless of texture, style, or background — is celebrated.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEAM ──────────────────────────────────── -->
+<section id="team">
+  <div class="section-header reveal">
+    <p class="section-label">Meet the Artists</p>
+    <span class="gold-line"></span>
+    <h2>Our <em>Team</em></h2>
+    <p>Talented, passionate, and dedicated to making you feel your most beautiful self every single visit.</p>
+  </div>
+
+  <div class="team-grid">
+
+    <div class="team-card reveal reveal-delay-1">
+      <div class="team-photo">
+        <div class="team-photo-inner">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="22" r="12" stroke="#c9a84c" stroke-width="1"/>
+            <path d="M8 52c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#c9a84c" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="team-photo-frame"></div>
+      </div>
+      <h3>Divine Owner</h3>
+      <p class="role">Master Stylist &amp; Owner</p>
+      <p class="specialty">Color Specialist · Balayage · Extensions</p>
+    </div>
+
+    <div class="team-card reveal reveal-delay-2">
+      <div class="team-photo">
+        <div class="team-photo-inner">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="22" r="12" stroke="#c9a84c" stroke-width="1"/>
+            <path d="M8 52c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#c9a84c" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="team-photo-frame"></div>
+      </div>
+      <h3>Senior Stylist</h3>
+      <p class="role">Senior Stylist</p>
+      <p class="specialty">Precision Cuts · Bridal · Keratin</p>
+    </div>
+
+    <div class="team-card reveal reveal-delay-3">
+      <div class="team-photo">
+        <div class="team-photo-inner">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="22" r="12" stroke="#c9a84c" stroke-width="1"/>
+            <path d="M8 52c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#c9a84c" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="team-photo-frame"></div>
+      </div>
+      <h3>Color Artist</h3>
+      <p class="role">Color Specialist</p>
+      <p class="specialty">Highlights · Vivid Color · Glossing</p>
+    </div>
+
+    <div class="team-card reveal reveal-delay-4">
+      <div class="team-photo">
+        <div class="team-photo-inner">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="22" r="12" stroke="#c9a84c" stroke-width="1"/>
+            <path d="M8 52c0-12.15 9.85-22 22-22s22 9.85 22 22" stroke="#c9a84c" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="team-photo-frame"></div>
+      </div>
+      <h3>Extension Expert</h3>
+      <p class="role">Extension Specialist</p>
+      <p class="specialty">Tape-In · Weft · Nano-Link</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── GALLERY ───────────────────────────────── -->
+<section id="gallery">
+  <div class="section-header reveal">
+    <p class="section-label">Our Work</p>
+    <span class="gold-line"></span>
+    <h2>The <em>Gallery</em></h2>
+    <p>A glimpse into the transformations we create every day. Follow us on Instagram for more.</p>
+  </div>
+
+  <div class="gallery-grid reveal">
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <span class="gp-icon">✦</span>
+        <span class="gp-text">Your Photo Here</span>
+      </div>
+      <div class="gallery-overlay"><span>View</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <span class="gp-icon">✦</span>
+        <span class="gp-text">Your Photo Here</span>
+      </div>
+      <div class="gallery-overlay"><span>View</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <span class="gp-icon">✦</span>
+        <span class="gp-text">Your Photo Here</span>
+      </div>
+      <div class="gallery-overlay"><span>View</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <span class="gp-icon">✦</span>
+        <span class="gp-text">Your Photo Here</span>
+      </div>
+      <div class="gallery-overlay"><span>View</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <span class="gp-icon">✦</span>
+        <span class="gp-text">Your Photo Here</span>
+      </div>
+      <div class="gallery-overlay"><span>View</span></div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder">
+        <span class="gp-icon">✦</span>
+        <span class="gp-text">Your Photo Here</span>
+      </div>
+      <div class="gallery-overlay"><span>View</span></div>
+    </div>
+  </div>
+
+  <p class="gallery-note">📸 Add your own portfolio photos to bring this gallery to life</p>
+</section>
+
+<!-- ── BOOK CTA ──────────────────────────────── -->
+<section id="book">
+  <div class="book-ornament">
+    <div class="book-ornament-line"></div>
+    <div class="book-ornament-diamond"></div>
+    <div class="book-ornament-line rev"></div>
+  </div>
+
+  <h2 class="reveal">Your <em>Transformation</em><br>Awaits</h2>
+  <p class="reveal">Ready to experience the Divine difference? Book your appointment online in minutes — new and existing clients welcome.</p>
+  <div class="reveal" style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap;">
+    <a href="https://dhdbyeve.glossgenius.com" target="_blank" rel="noopener" class="btn-primary">Book an Appointment</a>
+    <a href="tel:+18325551234" class="btn-outline">Call Us Directly</a>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ──────────────────────────── -->
+<section id="testimonials">
+  <div class="section-header reveal">
+    <p class="section-label">Client Love</p>
+    <span class="gold-line"></span>
+    <h2>What Our Guests <em>Say</em></h2>
+  </div>
+
+  <div class="testimonials-grid">
+
+    <div class="testimonial-card reveal reveal-delay-1">
+      <span class="testimonial-quote-mark">"</span>
+      <p>I've been coming to Divine Studio for two years and I will never go anywhere else. They truly understand my hair and always exceed my expectations. The salon feels like a luxury retreat every single time.</p>
+      <div class="testimonial-footer">
+        <div class="testimonial-avatar">S</div>
+        <div class="testimonial-info">
+          <div class="name">Sarah M.</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card reveal reveal-delay-2">
+      <span class="testimonial-quote-mark">"</span>
+      <p>My balayage turned out absolutely stunning. The consultation was thorough and the stylist truly listened to what I wanted. I walked out feeling like a completely new woman. 100% recommend to every woman in Katy!</p>
+      <div class="testimonial-footer">
+        <div class="testimonial-avatar">J</div>
+        <div class="testimonial-info">
+          <div class="name">Jennifer R.</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card reveal reveal-delay-3">
+      <span class="testimonial-quote-mark">"</span>
+      <p>The most gorgeous bridal hair I could have imagined. My stylist at Divine Studio made my wedding day feel so special. Everyone kept complimenting my hair all night. Worth every penny and more!</p>
+      <div class="testimonial-footer">
+        <div class="testimonial-avatar">A</div>
+        <div class="testimonial-info">
+          <div class="name">Ashley K.</div>
+          <div class="stars">★★★★★</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CONTACT ───────────────────────────────── -->
+<section id="contact">
+  <div class="section-header reveal">
+    <p class="section-label">Find Us</p>
+    <span class="gold-line"></span>
+    <h2>Get in <em>Touch</em></h2>
+    <p>We'd love to connect. Book online, give us a call, or send us a message — we respond within 24 hours.</p>
+  </div>
+
+  <div class="contact-wrapper">
+    <div class="contact-info reveal">
+      <h3>Visit Us in<br>Katy, Texas</h3>
+
+      <div class="contact-detail">
+        <span class="cd-label">Address</span>
+        <span class="cd-value">Katy, Texas 77494<br><em style="font-size:0.75rem; color:var(--muted)">(Full address coming soon)</em></span>
+      </div>
+
+      <div class="contact-detail">
+        <span class="cd-label">Phone</span>
+        <span class="cd-value"><a href="tel:+18325551234">(832) 555-1234</a></span>
+      </div>
+
+      <div class="contact-detail">
+        <span class="cd-label">Email</span>
+        <span class="cd-value"><a href="/cdn-cgi/l/email-protection#2048454c4c4f60444956494e454841495244455349474e530e434f4d"><span class="__cf_email__" data-cfemail="bcd4d9d0d0d3fcd8d5cad5d2d9d4ddd5ced8d9cfd5dbd2cf92dfd3d1">[email&#160;protected]</span></a></span>
+      </div>
+
+      <div class="contact-detail">
+        <span class="cd-label">Hours</span>
+        <div class="contact-hours">
+          <div class="hours-row"><span class="day">Tuesday – Friday</span><span class="time">9am – 7pm</span></div>
+          <div class="hours-row"><span class="day">Saturday</span><span class="time">9am – 5pm</span></div>
+          <div class="hours-row"><span class="day">Sunday</span><span class="time">By Appointment</span></div>
+          <div class="hours-row"><span class="day">Monday</span><span class="time">Closed</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-side reveal reveal-delay-2">
+      <h3>Send Us a<br>Message</h3>
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Full name" />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label>Service Interest</label>
+        <select>
+          <option value="">Select a service...</option>
+          <option>Cut &amp; Style</option>
+          <option>Color / Balayage</option>
+          <option>Extensions</option>
+          <option>Chemical Services</option>
+          <option>Bridal / Special Occasion</option>
+          <option>General Inquiry</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell us about what you're looking for..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%; border:none; cursor:pointer;">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────── -->
+<footer>
+  <div class="footer-logo">
+    <span class="script">Divine Studio</span>
+    <span class="sub">Katy, Texas · Luxury Beauty Destination</span>
+  </div>
+
+  <div class="footer-social">
+    <a class="social-btn" href="#" title="Instagram">IG</a>
+    <a class="social-btn" href="#" title="Facebook">FB</a>
+    <a class="social-btn" href="#" title="TikTok">TK</a>
+  </div>
+
+  <ul class="footer-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://dhdbyeve.glossgenius.com" target="_blank" rel="noopener">Book Now</a></li>
+  </ul>
+
+  <span class="gold-line" style="margin-bottom:1.5rem;"></span>
+  <p class="footer-copy">© 2025 Divine Studio · Katy, Texas · All Rights Reserved</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ── NAV scroll effect
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventLi
